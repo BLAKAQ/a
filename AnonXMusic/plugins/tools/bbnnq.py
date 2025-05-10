@@ -53,7 +53,8 @@ async def ihd(client: Client, message: Message):
             ]
         )
     )
-    @app.on_message(command("الاوامر"))
+    
+@app.on_message(command("الاوامر"))
 async def ahmad(client: Client, message: Message):
     await message.reply_text(f"""🧚🏼‍♂️🔥 أوامࢪ بوت ميوزك 🧚🏼‍♂️🔥:
 
