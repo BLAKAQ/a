@@ -23,7 +23,22 @@ async def ihd(client: Client, message: Message):
             ]
         )
     )
-
+    
+@app.on_message(command([f"ريمكس"]))
+async def ihd(client: Client, message: Message):
+    rl = random.randint(3,258)
+    url = f"https://t.me/RemixFaeder/{rl}"
+    await client.send_voice(message.chat.id,url,caption=f"🧚🏼‍♂️ ¦ تم أختياࢪ ريمكس لك {message.from_user.mention}",
+    reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        message.from_user.first_name, url=f"https://t.me/{message.from_user.username}")
+                ],
+            ]
+        )
+    )
+    
 @app.on_message(command([f"ميمز"]))
 async def ihd(client: Client, message: Message):
     rl = random.randint(3,258)
