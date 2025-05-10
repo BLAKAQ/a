@@ -39,11 +39,11 @@ async def ihd(client: Client, message: Message):
         )
     )
     
-@app.on_message(command([f"شعر"]))
+@app.on_message(command([f"راب"]))
 async def ihd(client: Client, message: Message):
     rl = random.randint(3,258)
-    url = f"https://t.me/sharfaeder/{rl}"
-    await client.send_voice(message.chat.id,url,caption=f"🧚🏼‍♂️ ¦ تم أختياࢪ شعر لك {message.from_user.mention}",
+    url = f"https://t.me/RabFaeder/{rl}"
+    await client.send_voice(message.chat.id,url,caption=f"🧚🏼‍♂️ ¦ تم أختياࢪ راب لك {message.from_user.mention}",
     reply_markup=InlineKeyboardMarkup(
             [
                 [
