@@ -1,16 +1,11 @@
 import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.errors import FloodWait, PeerIdInvalid
-import traceback
-
 from AnonXMusic import app
 from config import OWNER_ID, START_IMG_URL
 from AnonXMusic.utils.database import (
     get_served_chats,
     get_served_users,
-    # remove_served_user,  # إذا عندك دالة حذف المستخدمين
-    # remove_served_chat,  # إذا عندك دالة حذف الكروبات
 )
 
 MESSAGE = f"""- اقوي بوت ميوزك قنوات و جروبات سرعه وجوده خارقه
@@ -30,58 +25,31 @@ BUTTON = InlineKeyboardMarkup(
         ]
     ]
 )
-
 async def send_message_to_chats_and_users():
     try:
         chats = await get_served_chats()
-        print(f"🔹 عدد الكروبات: {len(chats)}")
         for chat_info in chats:
             chat_id = chat_info.get('chat_id')
             if isinstance(chat_id, int):
                 try:
-                    # تحقق من صلاحية الوصول للكروب/القناة
-                    await app.get_chat(chat_id)
                     await app.send_photo(chat_id, photo=START_IMG_URL, caption=MESSAGE, reply_markup=BUTTON)
-                    print(f"✅ تم الإرسال إلى الكروب: {chat_id}")
                     await asyncio.sleep(1)
-                except PeerIdInvalid:
-                    print(f"🚫 تخطى الكروب {chat_id} - معرف غير صحيح أو البوت ليس عضو فيه.")
-                    # إذا عندك دالة حذف: await remove_served_chat(chat_id)
-                except FloodWait as e:
-                    print(f"⚠️ FloodWait {e.value} ثانية - الانتظار...")
-                    await asyncio.sleep(e.value)
-                except Exception as e:
-                    print(f"❌ خطأ في كروب {chat_id} -> {e}")
-                    traceback.print_exc()
-
+                except Exception:
+                    continue
         users = await get_served_users()
-        print(f"🔸 عدد المستخدمين: {len(users)}")
         for user_info in users:
             user_id = user_info.get('user_id')
             if isinstance(user_id, int):
                 try:
-                    # تحقق من صلاحية الوصول للمستخدم
-                    await app.get_chat(user_id)
                     await app.send_photo(user_id, photo=START_IMG_URL, caption=MESSAGE, reply_markup=BUTTON)
-                    print(f"✅ تم الإرسال إلى المستخدم: {user_id}")
                     await asyncio.sleep(1)
-                except PeerIdInvalid:
-                    print(f"🚫 تخطى المستخدم {user_id} - البوت لا يعرفه أو لم يبدأ معه محادثة.")
-                    # إذا عندك دالة حذف: await remove_served_user(user_id)
-                except FloodWait as e:
-                    print(f"⚠️ FloodWait {e.value} ثانية - الانتظار...")
-                    await asyncio.sleep(e.value)
-                except Exception as e:
-                    print(f"❌ خطأ في مستخدم {user_id} -> {e}")
-                    traceback.print_exc()
-
-    except Exception as e:
-        print(f"❌ خطأ عام في دالة الإرسال: {e}")
-        traceback.print_exc()
+                except Exception:
+                    continue
+    except Exception:
+        pass
 
 @app.on_message(filters.command(["اعلان للبوت"], "") & filters.user(OWNER_ID))
 async def auto_broadcast_command(client: Client, message: Message):
-    print("🚀 استلم البوت الأمر بنجاح من المالك.")
-    await message.reply("✅ تم بدء نشر الإعلان في جميع المجموعات والمستخدمين، يرجى الانتظار...")
+    await message.reply("تم بدء نشر اعلان للبوت في جميع المجموعات والمستخدمين، يرجى الانتظار...")
     await send_message_to_chats_and_users()
-    await message.reply("✅ تم الانتهاء من إرسال الإعلان لجميع المجموعات والمستخدمين.")
+    await message.reply("تم الانتهاء من إرسال الإعلان لجميع المجموعات والمستخدمين.")
