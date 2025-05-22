@@ -246,7 +246,7 @@ class YouTubeAPI:
 
         def audio_dl():
             ydl_optssx = {
-                "format": "bestaudio/best",
+                "format": "140/bestaudio/best",
                 "cookiefile": cookies_file,
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
