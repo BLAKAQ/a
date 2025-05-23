@@ -254,7 +254,8 @@ class YouTubeAPI:
                 "no_warnings": True,
                 "extractor_args": {"youtube": {"player_client": ["web"]}},
                 "http_headers": {
-                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"            }
+                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+                }
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
             xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
